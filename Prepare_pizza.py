@@ -35,7 +35,7 @@ display.set_caption('Derek Destroys Vampire Pizzas!')
 
 # Background Image
 
-background_img = image.load('restaurant.jpg')
+background_img = image.load("restaurant.jpg")
 background_surf = Surface.convert_alpha(background_img)
 BACKGROUND = transform.scale(background_surf, WINDOW_RES)
 
