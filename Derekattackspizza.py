@@ -23,7 +23,7 @@ HEIGHT = 100
 # define colors
 WHITE = (255, 255, 255)
 
-#Define SPAWN_RATE
+# Define SPAWN_RATE
 SPAWN_RATE = 360
 
 # ------------------------------------------------------
@@ -35,23 +35,17 @@ display.set_caption('Derek Destroys Vampire Pizzas!')
 
 # Background Image
 
-background_img = image.load('C:\\Users\\hyamy\Derek_loves_pizza_directory\\D-s-Pizza-\\DPImages\\restaurant.jpg')
+background_img = image.load(
+    'C:\\Users\\hyamy\Derek_loves_pizza_directory\\D-s-Pizza-\\DPImages\\restaurant.jpg')
 background_surf = Surface.convert_alpha(background_img)
 BACKGROUND = transform.scale(background_surf, WINDOW_RES)
 
-# Background grid
-tile_color = WHITE
-for row in range(6):
-    for column in range(11):
-        draw.rect(BACKGROUND, tile_color, (WIDTH * column,
-                                           HEIGHT * row, WIDTH, HEIGHT), 1)
 
-
-# Loading images
-pizza_img = image.load('C:\\Users\\hyamy\\Derek_loves_pizza_directory\\D-s-Pizza-\\DPImages\\vampire.png')
+# Setting up Enemy images
+pizza_img = image.load(
+    'C:\\Users\\hyamy\\Derek_loves_pizza_directory\\D-s-Pizza-\\DPImages\\vampire.png')
 pizza_surf = Surface.convert_alpha(pizza_img)
 VAMPIRE_PIZZA = transform.scale(pizza_surf, (WIDTH, HEIGHT))
-GAME_WINDOW.blit(BACKGROUND, (0, 0))
 
 
 # -------------------------------------------------------
@@ -82,9 +76,21 @@ class VampireSprite(sprite.Sprite):
     def updates(self, game_window):
         game_window.blit(self.image, (self.rect.x, self.rect.y))
 
+
 # -------------------------------------------------------
 # Create class instances and groups
 all_vampires = sprite.Group()
+# -------------------------------------------------------
+# Background grid
+tile_color = WHITE
+for row in range(6):
+    for column in range(11):
+        draw.rect(BACKGROUND, tile_color, (WIDTH * column,
+                                           HEIGHT * row, WIDTH, HEIGHT), 1)
+
+
+# Display the background image to screen
+GAME_WINDOW.blit(BACKGROUND, (0, 0))
 # -------------------------------------------------------
 # Start main game loop
 
@@ -92,8 +98,7 @@ all_vampires = sprite.Group()
 game_running = True
 while game_running:
 
-
-    # -------------------------------------------------------
+# -------------------------------------------------------
     # Check for events
 
     # Checking for and handling events
@@ -103,11 +108,11 @@ while game_running:
         if event.type == QUIT:
             game_running = FALSE
 
-    #Spawn vampire pizza sprites
+    # Spawn vampire pizza sprites
     if randint(1, SPAWN_RATE) == 1:
         VampireSprite()
 # -------------------------------------------------------
-            # update display
+        # update display
 
         for vampire in all_vampires:
             vampire.update(GAME_WINDOW)
@@ -120,5 +125,3 @@ while game_running:
 
 # Clean up game
 pygame.quit()
-
-
