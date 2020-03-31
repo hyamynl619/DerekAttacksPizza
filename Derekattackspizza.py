@@ -92,7 +92,7 @@ class VampireSprite(sprite.Sprite):
         # Take all the behavior rules from Sprite class & use them
         super().__init__()
         # Set the default movement speed
-        self.speed = 2
+        self.speed = REG_SPEED
         # Randomly Select a lane between 0 and 4
         self.lane = randint(0, 4)
         # Add all the vampire pizza sprites to a group
@@ -104,6 +104,7 @@ class VampireSprite(sprite.Sprite):
         # Create a rect for each sprite and place it just
         # off the  right side of the screen in the correct lane
         self.rect = self.image.get_rect(center=(1100, y))
+        self.health = 100
 
     def update(self, game_window, counters):
         # Erase the last Sprite image
@@ -145,8 +146,7 @@ class Counters(object):
         self.bad_rev_rect = None
 
 # Set the rate that the player earns pizza bucks
-
-    def draw_bucks(self, game_window):
+     def increment_bucks(self:
         if self.loop_count % self.buck_rate == 0:
             self.pizza_bucks += self.buck_booster
 
@@ -159,22 +159,22 @@ class Counters(object):
         bucks_surf = self.display_font.render(
             str(self.pizza_bucks), True, WHITE)
         self.bucks_rect = bucks_surf.get_rect()
-        self.bucks_rect.x = WINDOW_WIDTH - 150
+        self.bucks_rect.x = WINDOW_WIDTH - 50
         self.bucks_rect.y = WINDOW_HEIGHT - 50
-        game.window.blit(bucks_surf, self.bucks_rect)
+        game_window.blit(bucks_surf, self.bucks_rect)
 
     # Display bad reviews total on the screen
 
     def draw_bad_reviews(self, game_window):
         if bool(self.bad_rev_rect):
             game_window.blit(BACKGROUND, (self.bad_rev_rect.x,
-                                          self.bad_rev_rect.y), self.bad_rec_rect)
+                                          self.bad_rev_rect.y), self.bad_rev_rect)
         bad_rev_surf = self.display_font.render(
             str(self.bad_reviews), True, WHITE)
         self.bad_rev_rect = bad_rev_surf.get_rect()
         self.bad_rev_rect.x = WINDOW_WIDTH - 150
         self.bad_rev_rect.y = WINDOW_HEIGHT - 50
-        game.window.blit(bad_rev_surf, self.bad_rev_rect)
+        game_window.blit(bad_rev_surf, self.bad_rev_rect)
 
 # Display time remaining on the screen
 
@@ -191,7 +191,7 @@ class Counters(object):
 
     # Increment the loop_counter & call the other Counters
 
-    def updates(self, game_window):
+    def update(self, game_window):
         self.loop_count += 1
         self.increment_bucks()
         self.draw_bucks(game_window)
@@ -278,7 +278,7 @@ class InactiveTile(BackgroundTile):
         return None
 
     # Do not display anything
-    def draw_traps(self, game_window, trap_applicator):
+    def draw_trap(self, game_window, trap_applicator):
         pass
 
 
@@ -330,7 +330,7 @@ for row in range(6):
 
 
 # Display the background image to screen
-GAME_WINDOW.blit(BACKGROUND, (0, 0))
+GAME_WINDOW.blit(BACKGROUND, (0,0))
 # -------------------------------------------------------
 # Start main game loop
 
@@ -402,7 +402,7 @@ if counters.bad_reviews >= MAX_BAD_REVIEWS:
     game_running = False
 
 # Test for lose condition
-if counters.loop_counter > WIN_TIME:
+if counters.loop_count > WIN_TIME:
     game_running = False
 
 # -----------------------------------------
@@ -446,7 +446,7 @@ while program_running:
     for event in pygame.event.get():
         if event.type == QUIT:
             program_running = False
-        clock.tick(FRAME_RATE)
+    clock.tick(FRAME_RATE)
 
 # ---------------------------------------------------
 # Close end game message loop
