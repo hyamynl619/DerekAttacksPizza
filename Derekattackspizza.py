@@ -146,7 +146,7 @@ class Counters(object):
         self.bad_rev_rect = None
 
 # Set the rate that the player earns pizza bucks
-     def increment_bucks(self:
+     def increment_bucks(self):
         if self.loop_count % self.buck_rate == 0:
             self.pizza_bucks += self.buck_booster
 
