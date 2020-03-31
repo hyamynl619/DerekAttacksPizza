@@ -8,6 +8,9 @@ from random import randint
 # initialize Pygame
 pygame.init()
 
+#Setup Clock
+clock = time.Clock()
+
 # ------------------------------------------------------
 # Define constant variables
 
@@ -23,8 +26,9 @@ HEIGHT = 100
 # define colors
 WHITE = (255, 255, 255)
 
-# Define SPAWN_RATE
+# Define RATES
 SPAWN_RATE = 360
+FRAME_RATE = 60
 
 # ------------------------------------------------------
 # Load assets
@@ -73,7 +77,12 @@ class VampireSprite(sprite.Sprite):
         # off the  right side of the screen in the correct lane
         self.rect = self.image.get_rect(center=(1100, y))
 
-    def updates(self, game_window):
+    def update(self, game_window):
+        #Erase the last Sprite image
+        game_window.blit(BACKGROUND, (self.rect.x, self.rect.y), self.rect))
+        #Move the Sprites
+        self.rect.x -= self.speed
+        #Update Sprite images to new location
         game_window.blit(self.image, (self.rect.x, self.rect.y))
 
 
@@ -106,7 +115,7 @@ while game_running:
 
         # Exit Loop on quit
         if event.type == QUIT:
-            game_running = FALSE
+            game_running = False
 
     # Spawn vampire pizza sprites
     if randint(1, SPAWN_RATE) == 1:
@@ -118,6 +127,8 @@ while game_running:
             vampire.update(GAME_WINDOW)
 
         display.update()
+        #Set the time frame
+        clock.tick(FRAME_RATE)
 
 # End of main game loop
 
